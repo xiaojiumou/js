@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="001.css">
+</head>
+<body>
+  <div class="conect" >
+  <button class="box" id="0" ></button>
+  <button class="box" id="1" ></button>
+  <button class="box" id="2" ></button>
+  <button class="box" id="3" ></button>
+  <button class="box" id="4" ></button>
+  <button class="box" id="5" ></button>
+  <button class="box" id="6" ></button>
+  <button class="box" id="7" ></button>
+  <button class="box" id="8" ></button>
+</div>
+  <div class="dz">
+    <span class="jieshu" id="jieshu"></span>
+    <button class="start" id="start">开始</button>
+  </div>
+<script>  
+// 定义全局变量与函数
+  let player;
+  const btn = function(){
+  player=player==="X"?"O":"X";
+  }
+  const winCombos =[
+    [0,1,2],
+    [3,4,5],
+    [6,7,8],
+    [0,3,6],
+    [1,4,7],
+    [2,5,8],
+    [0,4,8],
+    [6,4,2]
+  ]
+  let start=document.getElementById("start");
+  let boxs = document.querySelectorAll(".box");
+  let winner = function(){
+  for(let i =0;i<winCombos.length;i++){
+  const [a,b,c] = winCombos[i];
+  if(boxs[a].innerText===player && boxs[a].innerText === boxs[b].innerText && boxs[a].innerText === boxs[c].innerText){
+  document.getElementById("jieshu").innerText=player+"获胜了！";
+  for(let i=0;i<boxs.length;i++){
+  boxs[i].onclick=null;
+  }
+  }
+  }
+  }
+  let cz =start.onclick;
+// 重置开始  
+  start.onclick =function(){
+  for(let i=0; i<boxs.length;i++){
+  boxs[i].innerText ="";
+  }  
+  document.getElementById("jieshu").innerText="";
+  player="X";
+  for(let i=0;i<boxs.length;i++){
+   boxs[i].onclick=function(){
+    if(boxs[i].innerText===""){
+    boxs[i].innerText=player;
+    }
+  winner();
+  btn();
+  
+  }
+  }
+  }   
+</script>
+</body>
+</html>
+<!-- 1. 维护history;
+     2. 在历史记录容器中添加一个button，并且在button中绑定事件 
+-->
+<!-- 1. 记录i；
+     2.  截取history；
+     3. 遍历棋盘单元格，按照截取的history复原棋盘 
+-->
