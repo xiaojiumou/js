@@ -21,14 +21,21 @@
 </div>
   <div class="dz">
     <span class="jieshu" id="jieshu"></span>
+    <div class="bz" id="bz"></div>
     <button class="start" id="start">开始</button>
   </div>
 <script>  
 // 定义全局变量与函数
   let player;
+  let history= new Array();
+  let a=1;
+  let start=document.getElementById("start");
+  let boxs = document.querySelectorAll(".box");
+  let but  =new Array()
   const btn = function(){
   player=player==="X"?"O":"X";
   }
+  let  bz=document.getElementById("bz");
   const winCombos =[
     [0,1,2],
     [3,4,5],
@@ -39,8 +46,7 @@
     [0,4,8],
     [6,4,2]
   ]
-  let start=document.getElementById("start");
-  let boxs = document.querySelectorAll(".box");
+
   let winner = function(){
   for(let i =0;i<winCombos.length;i++){
   const [a,b,c] = winCombos[i];
@@ -55,29 +61,36 @@
   let cz =start.onclick;
 // 重置开始  
   start.onclick =function(){
-  for(let i=0; i<boxs.length;i++){
+  document.getElementById('bz').innerHTML="";
+  a=1;
+  for(let i=0; i<boxs.length;i++){//棋子清零
   boxs[i].innerText ="";
   }  
   document.getElementById("jieshu").innerText="";
-  player="X";
+  player="X";//初始化棋子
+  // 下棋开始
   for(let i=0;i<boxs.length;i++){
    boxs[i].onclick=function(){
-    if(boxs[i].innerText===""){
+    if(!boxs[i].innerText){
     boxs[i].innerText=player;
+    }
+    history[i]=[boxs[0].innerText,boxs[1].innerText,boxs[2].innerText,boxs[3].innerText,boxs[4].innerText,boxs[5].innerText,boxs[6].innerText,boxs[7].innerText,boxs[8].innerText];
+    but[i]=document.createElement("input");
+    but[i].type="button";
+    but[i].value="第"+ a++ +"步";
+    bz.appendChild(but[i]);
+    boxs[i].onclick=null;
+    but[i].onclick=function(){
+    for(let a=0; a<8;a++){
+    boxs[a].innerText=history[i][a];
+    }
     }
   winner();
   btn();
-  
   }
   }
-  }   
+  }
+   
 </script>
 </body>
 </html>
-<!-- 1. 维护history;
-     2. 在历史记录容器中添加一个button，并且在button中绑定事件 
--->
-<!-- 1. 记录i；
-     2.  截取history；
-     3. 遍历棋盘单元格，按照截取的history复原棋盘 
--->
